@@ -1,0 +1,16 @@
+general:
+  - ca: ca.pem
+    cert: cert.pem
+    host: "192.168.1.10"
+    key: key.pem
+    port: 2375
+    version: v1.25
+tasks:
+  - name: "ubuntu trial"
+    image: "ubuntu"
+    cmd: "/bin/bash -c tail -f /var/log/dmesg"
+    cron: "* * * * *"
+
+  - name: "hello world trial"
+    image: "hello-world"
+    cron: "* * * * *"
