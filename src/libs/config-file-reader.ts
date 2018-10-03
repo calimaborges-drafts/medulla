@@ -3,16 +3,22 @@ import yaml from "js-yaml";
 
 export interface Config {
   general: GeneralConfig;
+  instance: InstanceConfig;
   tasks: TaskConfig[];
 }
 
+export interface InstanceConfig {
+  maxJobs: number;
+}
+
 export interface GeneralConfig {
-  ca: string;
-  cert: string;
-  key: string;
-  host: string;
-  port: number;
-  version: string;
+  socketPath?: string;
+  ca?: string;
+  cert?: string;
+  key?: string;
+  host?: string;
+  port?: number;
+  version?: string;
 }
 
 export interface TaskConfig {

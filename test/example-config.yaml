@@ -1,16 +1,52 @@
 general:
-  - ca: ca.pem
-    cert: cert.pem
-    host: "192.168.1.10"
-    key: key.pem
-    port: 2375
+  - socketPath: "/var/run/docker.sock"
     version: v1.25
+instance:
+  maxJobs: 5
 tasks:
-  - name: "ubuntu trial"
+  - name: "ubuntu trial 1"
     image: "ubuntu"
     cmd: "/bin/bash -c tail -f /var/log/dmesg"
     cron: "* * * * *"
 
-  - name: "hello world trial"
+  - name: "hello world trial 1"
     image: "hello-world"
+    cmd: ""
     cron: "* * * * *"
+
+  - name: "hello world trial 2"
+    image: "hello-world"
+    cmd: ""
+    cron: "* * * * *"
+
+  - name: "hello world trial 3"
+    image: "hello-world"
+    cmd: ""
+    cron: "* * * * *"
+
+  - name: "hello world trial 4"
+    image: "hello-world"
+    cmd: ""
+    cron: "* * * * *"
+
+  - name: "hello world trial 5"
+    image: "hello-world"
+    cmd: ""
+    cron: "* * * * *"
+
+  - name: "hello world trial 6"
+    image: "hello-world"
+    cmd: ""
+    cron: "* * * * *"
+  
+  - name: "hello world trial 7"
+    image: "hello-world"
+    cmd: ""
+    cron: "* * * * *"
+
+  - name: "hello world trial 8"
+    image: "hello-world"
+    cmd: ""
+    cron: "* * * * *"
+
+  

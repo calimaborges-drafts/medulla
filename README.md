@@ -36,3 +36,18 @@ tasks:
 | hello-world                                                                OK  OK  OK    RUN |
 +----------------------------------------------------------------------------------------------+
 ```
+
+## Funcionalidades
+
+- [x] Arquivo de configuração com especificações do "servidor" Docker e tarefas
+- [x] Deve ser possível limitar quantidade de tarefas concorrentes no arquivo de configuração
+- [x] Tarefa pode ser agendada usando string cron
+- [ ] Deve funcionar com o Docker Swarm
+- [ ] RESTful API para acompanhar tarefas em execução
+- [ ] Dashboard para acompanhar tarefas em execução
+- [ ] Deve permitir visualizar três últimas rodadas executadas por tarefa
+- [ ] Permitir definir tarefa como única rodada (não permite executar a mesma tarefa ao mesmo tempo)
+- [ ] Deve permitir exibir tarefas agendadas com cron string
+- [ ] Deve permitir forçar execução de tarefa
+- [ ] Deve permitir configurar notificador (slack, email etc)
+- [ ] Integração com GitLab para pesquisar arquivo `.medulla.yml` para buscar tarefas a serem agendadas
