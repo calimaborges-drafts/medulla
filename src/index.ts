@@ -23,10 +23,13 @@ function main(): void {
       if (task.cmd) {
         containerConfig["Cmd"] = task.cmd.split(" ");
       }
-
-      const container = await docker.createContainer(containerConfig);
-      await container.start();
-      logger.info(`Started container for task ${task.name}: ${container.id}`);
+      try {
+        const container = await docker.createContainer(containerConfig);
+        await container.start();
+        logger.info(`Started container for task ${task.name}: ${container.id}`);
+      } catch (error) {
+        logger.error(error);
+      }
     };
   }
 
