@@ -8,5 +8,6 @@ export const logger = winston.createLogger({
     format.align(),
     format.printf(info => `${info.timestamp} ${info.level}: ${info.message}`)
   ),
+  level: process.env.NODE_ENV === "development" ? "debug" : "info",
   transports: [new winston.transports.Console()]
 });
