@@ -44,8 +44,9 @@ tasks:
 - [x] Arquivo de configuração com especificações do "servidor" Docker e tarefas
 - [x] Deve ser possível limitar quantidade de tarefas concorrentes no arquivo de configuração
 - [x] Tarefa pode ser agendada usando string cron
-- [ ] Deve funcionar com o Docker Swarm
-- [ ] Tratar execuções com erro
+- [x] Deve funcionar com o Docker Swarm
+- [x] Tratar execuções com erro
+- [ ] Por enquanto armazenar somente 1 resultado por tarefa
 - [ ] RESTful API para acompanhar tarefas em execução
 - [ ] Dashboard para acompanhar tarefas em execução
 - [ ] Deve permitir visualizar três últimas rodadas executadas por tarefa

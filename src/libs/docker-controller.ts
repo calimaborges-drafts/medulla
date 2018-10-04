@@ -1,6 +1,5 @@
 import Docker, { Service } from "dockerode";
 import { GeneralConfig, TaskConfig } from "./config-file-reader";
-import { logger } from "./logger";
 
 async function sleep(ms: number) {
   return new Promise(resolve => setTimeout(resolve, ms));
