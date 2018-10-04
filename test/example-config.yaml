@@ -4,22 +4,32 @@ general:
 instance:
   maxJobs: 5
 tasks:
-  - name: "ubuntu trial 1"
-    image: "ubuntu"
-    cron: "* * * * *"
+  # - name: "ubuntu trial 1"
+  #   image: "ubuntu"
+  #   cron: "* * * * *"
 
-  - name: "hello world trial 1"
+  - name: "hello-world-trial-1"
     image: "hello-world"
     cron: "* * * * *"
+    timeout: 30
 
-  - name: "hello world trial 1"
-    image: "hello-world"
+  - name: "errored-1"
+    image: "calimaborges/errored"
     cron: "* * * * *"
+    timeout: 30
 
-  - name: "hello world trial 1"
-    image: "hello-world"
-    cron: "* * * * *"
+  # - name: "hello-world-trial-1"
+  #   image: "hello-world"
+  #   cron: "* * * * *"
 
-  - name: "visualizer"
-    image: "dockersamples/visualizer:stable"
-    cron: "* * * * *"
+  # - name: "hello world trial 1"
+  #   image: "hello-world"
+  #   cron: "* * * * *"
+
+  # - name: "hello world trial 1"
+  #   image: "hello-world"
+  #   cron: "* * * * *"
+
+  # - name: "visualizer"
+  #   image: "dockersamples/visualizer:stable"
+  #   cron: "* * * * *"

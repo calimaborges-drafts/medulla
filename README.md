@@ -6,19 +6,17 @@ Task runner for docker swarm
 
 ```yml
 general:
-  - ca: ca.pem
-    cert: cert.pem
-    host: "192.168.1.10"
-    key: key.pem
-    port: 2375
-    version: v1.25
+  host: "http://10.0.100.157"
+  port: 2376
+instance:
+  maxJobs: 5
 tasks:
-  - name: "ubuntu trial"
-    image: "ubuntu"
-    cmd: "/bin/bash -c tail -f /var/log/dmesg"
+  - name: "hello-world-trial-1"
+    image: "hello-world"
     cron: "* * * * *"
+    timeout: 30 # in seconds
 
-  - name: "hello world trial"
+  - name: "hello-world-trial-2"
     image: "hello-world"
     cron: "* * * * *"
 ```
@@ -37,12 +35,17 @@ tasks:
 +----------------------------------------------------------------------------------------------+
 ```
 
+## Referências
+
+- https://blog.alexellis.io/containers-on-swarm/
+
 ## Funcionalidades
 
 - [x] Arquivo de configuração com especificações do "servidor" Docker e tarefas
 - [x] Deve ser possível limitar quantidade de tarefas concorrentes no arquivo de configuração
 - [x] Tarefa pode ser agendada usando string cron
 - [ ] Deve funcionar com o Docker Swarm
+- [ ] Tratar execuções com erro
 - [ ] RESTful API para acompanhar tarefas em execução
 - [ ] Dashboard para acompanhar tarefas em execução
 - [ ] Deve permitir visualizar três últimas rodadas executadas por tarefa
@@ -51,3 +54,4 @@ tasks:
 - [ ] Deve permitir forçar execução de tarefa
 - [ ] Deve permitir configurar notificador (slack, email etc)
 - [ ] Integração com GitLab para pesquisar arquivo `.medulla.yml` para buscar tarefas a serem agendadas
+- [ ] Implementar Timeout

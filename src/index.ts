@@ -18,7 +18,7 @@ function main(): void {
     return async function() {
       try {
         logger.info(`Running ${task.name} using ${task.image}`);
-        await dockerController.run(task.image);
+        await dockerController.run(task);
         logger.info(`Done ${task.name}`);
       } catch (error) {
         logger.error(error);
