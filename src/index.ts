@@ -4,11 +4,15 @@ import { logger } from "./libs/logger";
 import { parseConfig, TaskConfig } from "./libs/config-file-reader";
 import { DockerController } from "./libs/docker-controller";
 
-const RUN_NOW = true;
+const RUN_NOW = process.env.NODE_ENV === "development";
 const DEFAULT_MAX_JOBS = 5;
 
 function main(): void {
-  const config = parseConfig("./test/example-config.yaml");
+  const config = parseConfig(
+    process.env.NODE_ENV === "development"
+      ? "./test/example-config.yaml"
+      : "config.yaml"
+  );
   const dockerController = new DockerController(config.general);
   const queue = new PQueue({
     concurrency: config.instance.maxJobs || DEFAULT_MAX_JOBS
