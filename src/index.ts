@@ -1,32 +1,25 @@
-import Docker from "dockerode";
 import PQueue from "p-queue";
 import { CronJob } from "cron";
-
 import { logger } from "./libs/logger";
 import { parseConfig, TaskConfig } from "./libs/config-file-reader";
+import { DockerController } from "./libs/docker-controller";
 
+const RUN_NOW = true;
 const DEFAULT_MAX_JOBS = 5;
 
 function main(): void {
   const config = parseConfig("./test/example-config.yaml");
-  const docker = new Docker();
+  const dockerController = new DockerController(config.general);
   const queue = new PQueue({
     concurrency: config.instance.maxJobs || DEFAULT_MAX_JOBS
   });
 
   function runDockerContainer(task: TaskConfig): () => Promise<void> {
-    return async function(): Promise<void> {
-      const containerConfig: Docker.ContainerCreateOptions = {
-        Image: task.image
-      };
-
-      if (task.cmd) {
-        containerConfig["Cmd"] = task.cmd.split(" ");
-      }
+    return async function() {
       try {
-        const container = await docker.createContainer(containerConfig);
-        await container.start();
-        logger.info(`Started container for task ${task.name}: ${container.id}`);
+        logger.info(`Running ${task.name} using ${task.image}`);
+        await dockerController.run(task.image);
+        logger.info(`Done ${task.name}`);
       } catch (error) {
         logger.error(error);
       }
@@ -34,8 +27,12 @@ function main(): void {
   }
 
   config.tasks.forEach(task => {
-    new CronJob(task.cron, () => queue.add(runDockerContainer(task))).start();
-    logger.info(`Scheduled task ${task.name} with ${task.cron} cron string`);
+    if (RUN_NOW) {
+      queue.add(runDockerContainer(task));
+    } else {
+      new CronJob(task.cron, () => queue.add(runDockerContainer(task))).start();
+      logger.info(`Scheduled task ${task.name} with ${task.cron} cron string`);
+    }
   });
 }
 

@@ -1,52 +1,25 @@
 general:
-  - socketPath: "/var/run/docker.sock"
-    version: v1.25
+  host: "http://10.0.100.157"
+  port: 2376
 instance:
   maxJobs: 5
 tasks:
   - name: "ubuntu trial 1"
     image: "ubuntu"
-    cmd: "/bin/bash -c tail -f /var/log/dmesg"
     cron: "* * * * *"
 
   - name: "hello world trial 1"
     image: "hello-world"
-    cmd: ""
     cron: "* * * * *"
 
-  - name: "hello world trial 2"
+  - name: "hello world trial 1"
     image: "hello-world"
-    cmd: ""
     cron: "* * * * *"
 
-  - name: "hello world trial 3"
+  - name: "hello world trial 1"
     image: "hello-world"
-    cmd: ""
     cron: "* * * * *"
 
-  - name: "hello world trial 4"
-    image: "hello-world"
-    cmd: ""
+  - name: "visualizer"
+    image: "dockersamples/visualizer:stable"
     cron: "* * * * *"
-
-  - name: "hello world trial 5"
-    image: "hello-world"
-    cmd: ""
-    cron: "* * * * *"
-
-  - name: "hello world trial 6"
-    image: "hello-world"
-    cmd: ""
-    cron: "* * * * *"
-  
-  - name: "hello world trial 7"
-    image: "hello-world"
-    cmd: ""
-    cron: "* * * * *"
-
-  - name: "hello world trial 8"
-    image: "hello-world"
-    cmd: ""
-    cron: "* * * * *"
-
-  

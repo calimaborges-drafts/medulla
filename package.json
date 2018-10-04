@@ -15,6 +15,7 @@
     "@types/js-yaml": "^3.11.2",
     "@types/logform": "^1.2.0",
     "@types/node": "^10.11.3",
+    "@types/node-fetch": "^2.1.2",
     "@types/p-queue": "^2.3.1",
     "@types/winston": "^2.4.4",
     "jest": "^23.6.0",
@@ -26,6 +27,7 @@
     "dockerode": "^2.5.7",
     "js-yaml": "^3.12.0",
     "logform": "^1.10.0",
+    "node-fetch": "^2.2.0",
     "p-queue": "^3.0.0",
     "winston": "^3.1.0"
   }
