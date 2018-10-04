@@ -46,12 +46,14 @@ tasks:
 - [x] Tarefa pode ser agendada usando string cron
 - [x] Deve funcionar com o Docker Swarm
 - [x] Tratar execuções com erro
-- [ ] Por enquanto armazenar somente 1 resultado por tarefa
+- [x] Por enquanto armazenar somente 1 resultado por tarefa
 - [ ] RESTful API para acompanhar tarefas em execução
+  - [ ] Listar tarefas (baseado no `config.yaml`)
+    - [ ] Testar tarefas que nunca executaram
+  - [ ] Obter estado atual da tarefa
 - [ ] Dashboard para acompanhar tarefas em execução
 - [ ] Deve permitir visualizar três últimas rodadas executadas por tarefa
 - [ ] Permitir definir tarefa como única rodada (não permite executar a mesma tarefa ao mesmo tempo)
-- [ ] Deve permitir exibir tarefas agendadas com cron string
 - [ ] Deve permitir forçar execução de tarefa
 - [ ] Deve permitir configurar notificador (slack, email etc)
 - [ ] Integração com GitLab para pesquisar arquivo `.medulla.yml` para buscar tarefas a serem agendadas
