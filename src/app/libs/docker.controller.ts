@@ -1,6 +1,6 @@
 import Docker, { Service } from "dockerode";
 import { GeneralConfig, TaskConfig } from "./config-file-reader";
-import { sleep } from "./async-utils";
+import { sleep } from "../../shared/async-utils";
 import { logger } from "./logger";
 
 export class DockerController {

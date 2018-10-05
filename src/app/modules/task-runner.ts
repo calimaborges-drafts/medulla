@@ -2,7 +2,7 @@ import PQueue from "p-queue";
 import { CronJob } from "cron";
 import { logger } from "../libs/logger";
 import { Config, TaskConfig } from "../libs/config-file-reader";
-import { DockerController } from "../libs/docker-controller";
+import { DockerController } from "../libs/docker.controller";
 
 export function startTaskRunner(
   config: Config,

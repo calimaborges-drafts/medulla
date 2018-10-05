@@ -1,11 +1,11 @@
-import { startTaskRunner } from "./modules/task-runner";
-import { parseConfig } from "./libs/config-file-reader";
-import { startRestfulServer } from "./modules/restful-api-provider";
+import { startTaskRunner } from "./app/modules/task-runner";
+import { parseConfig } from "./app/libs/config-file-reader";
+import { startRestfulServer } from "./app/modules/restful-api-provider";
 
 const CONFIG_PATH =
   process.env.NODE_ENV === "development"
-    ? "../test/example-config.yaml"
-    : "config.yaml";
+    ? `${__dirname}/../test/example-config.yaml`
+    : `${__dirname}/../config.yaml`;
 const DEFAULT_MAX_JOBS = 5;
 const RUN_NOW = process.env.NODE_ENV === "development";
 const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
