@@ -4,7 +4,7 @@ import { startRestfulServer } from "./modules/restful-api-provider";
 
 const CONFIG_PATH =
   process.env.NODE_ENV === "development"
-    ? "./test/example-config.yaml"
+    ? "../test/example-config.yaml"
     : "config.yaml";
 const DEFAULT_MAX_JOBS = 5;
 const RUN_NOW = process.env.NODE_ENV === "development";
