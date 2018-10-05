@@ -1,7 +1,8 @@
 import Docker, { Service } from "dockerode";
-import { GeneralConfig, TaskConfig } from "./config-file-reader";
+import { GeneralConfig } from "./config-file-reader";
 import { sleep } from "../../shared/async-utils";
 import { logger } from "./logger";
+import { Task } from "../models/task";
 
 export class DockerController {
   private docker: Docker;
@@ -10,10 +11,10 @@ export class DockerController {
     this.docker = new Docker(config);
   }
 
-  async run(task: TaskConfig): Promise<Service> {
-    await this.__removeServiceForTask(task);
-    const service = await this.__createServiceForTask(task);
-    await this.__waitServiceToComplete(service);
+  public async run(task: Task): Promise<Service> {
+    await this.removeServiceForTask(task);
+    const service = await this.createServiceForTask(task);
+    await this.waitServiceToComplete(service);
 
     // const stream = await service.logs({
     //   stdout: true,
@@ -26,7 +27,7 @@ export class DockerController {
     return service;
   }
 
-  async __removeServiceForTask(task: TaskConfig): Promise<void> {
+  private async removeServiceForTask(task: Task): Promise<void> {
     logger.debug(`Fetching service from ${task.name} for removal...`);
     const service = this.docker.getService(task.name);
     try {
@@ -37,7 +38,7 @@ export class DockerController {
     }
   }
 
-  async __createServiceForTask(task: TaskConfig) {
+  private async createServiceForTask(task: Task) {
     logger.debug(`Creating service from ${task.name}...`);
     const service = await this.docker.createService({
       Name: task.name,
@@ -55,7 +56,7 @@ export class DockerController {
     return service;
   }
 
-  async __waitServiceToComplete(service: Service) {
+  private async waitServiceToComplete(service: Service) {
     logger.debug(`Waiting for service ${service.id} to complete...`);
     while (true) {
       const tasks = await this.docker.listTasks();

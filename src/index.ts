@@ -1,16 +1,21 @@
-import { startTaskRunner } from "./app/modules/task-runner";
+import { TasksRunner } from "./app/modules/tasks-runner";
 import { parseConfig } from "./app/libs/config-file-reader";
-import { startRestfulServer } from "./app/modules/restful-api-provider";
+import { RestfulApiServer } from "./app/modules/restful-api-server";
+import { DockerController } from "./app/libs/docker-controller";
 
-const CONFIG_PATH =
+const kConfigPath =
   process.env.NODE_ENV === "development"
     ? `${__dirname}/../test/example-config.yaml`
     : `${__dirname}/../config.yaml`;
-const DEFAULT_MAX_JOBS = 5;
-const RUN_NOW = process.env.NODE_ENV === "development";
-const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
 
-const config = parseConfig(CONFIG_PATH);
+const config = parseConfig(kConfigPath);
 
-startTaskRunner(config, DEFAULT_MAX_JOBS, RUN_NOW);
-startRestfulServer(config, PORT);
+const kPort = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
+const kMaxJobs = config.instance.maxJobs || 5;
+
+const dockerController = new DockerController(config.general);
+const restfulApiServer = new RestfulApiServer(config, kPort);
+const taskRunner = new TasksRunner(dockerController, kMaxJobs, config.tasks);
+
+restfulApiServer.start();
+taskRunner.start();
