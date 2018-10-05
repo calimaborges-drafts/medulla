@@ -1,5 +1,7 @@
 # medulla
 
+[![Build Status](https://travis-ci.org/calimaborges/medulla.svg?branch=master)](https://travis-ci.org/calimaborges/medulla)
+
 Task runner for docker swarm
 
 ## Arquivo de configuração
