@@ -1,7 +1,8 @@
+const { version } = require("../../package.json");
+
 import express from "express";
 import { logger } from "../libs/logger";
 import { Config } from "../libs/config-file-reader";
-const { version } = require("../../package.json");
 
 export function startRestfulServer(config: Config, port: number): void {
   const app = express();

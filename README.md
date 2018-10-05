@@ -48,9 +48,11 @@ tasks:
 - [x] Tratar execuções com erro
 - [x] Por enquanto armazenar somente 1 resultado por tarefa
 - [ ] RESTful API para acompanhar tarefas em execução
-  - [ ] Listar tarefas (baseado no `config.yaml`)
-    - [ ] Testar tarefas que nunca executaram
+  - [x] Listar tarefas (baseado no `config.yaml`)
   - [ ] Obter estado atual da tarefa
+  - [ ] Criar Factory / Classes ?
+  - [ ] Testar tarefas que nunca executaram
+- [ ] Testes automatizados
 - [ ] Dashboard para acompanhar tarefas em execução
 - [ ] Deve permitir visualizar três últimas rodadas executadas por tarefa
 - [ ] Permitir definir tarefa como única rodada (não permite executar a mesma tarefa ao mesmo tempo)

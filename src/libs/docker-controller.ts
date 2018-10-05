@@ -4,7 +4,7 @@ import { sleep } from "./async-utils";
 import { logger } from "./logger";
 
 export class DockerController {
-  docker: Docker;
+  private docker: Docker;
 
   constructor(config: GeneralConfig) {
     this.docker = new Docker(config);
