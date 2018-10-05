@@ -51,8 +51,8 @@ tasks:
 - [x] Por enquanto armazenar somente 1 resultado por tarefa
 - [ ] RESTful API para acompanhar tarefas em execução
   - [x] Listar tarefas (baseado no `config.yaml`)
+  - [x] Criar Factory / Classes ?
   - [ ] Obter estado atual da tarefa
-  - [ ] Criar Factory / Classes ?
   - [ ] Testar tarefas que nunca executaram
 - [ ] Testes automatizados
 - [ ] Dashboard para acompanhar tarefas em execução
