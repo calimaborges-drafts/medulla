@@ -1,43 +1,16 @@
-import PQueue from "p-queue";
-import { CronJob } from "cron";
-import { logger } from "./libs/logger";
-import { parseConfig, TaskConfig } from "./libs/config-file-reader";
-import { DockerController } from "./libs/docker-controller";
+import { startTaskRunner } from "./modules/task-runner";
+import { parseConfig } from "./libs/config-file-reader";
+import { startRestfulServer } from "./modules/restful-api-provider";
 
-const RUN_NOW = process.env.NODE_ENV === "development";
+const CONFIG_PATH =
+  process.env.NODE_ENV === "development"
+    ? "./test/example-config.yaml"
+    : "config.yaml";
 const DEFAULT_MAX_JOBS = 5;
+const RUN_NOW = process.env.NODE_ENV === "development";
+const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
 
-function main(): void {
-  const config = parseConfig(
-    process.env.NODE_ENV === "development"
-      ? "./test/example-config.yaml"
-      : "config.yaml"
-  );
-  const dockerController = new DockerController(config.general);
-  const queue = new PQueue({
-    concurrency: config.instance.maxJobs || DEFAULT_MAX_JOBS
-  });
+const config = parseConfig(CONFIG_PATH);
 
-  function runDockerContainer(task: TaskConfig): () => Promise<void> {
-    return async function() {
-      try {
-        logger.info(`Running ${task.name} using ${task.image}`);
-        await dockerController.run(task);
-        logger.info(`Done ${task.name}`);
-      } catch (error) {
-        logger.error(error);
-      }
-    };
-  }
-
-  config.tasks.forEach(task => {
-    if (RUN_NOW) {
-      queue.add(runDockerContainer(task));
-    } else {
-      new CronJob(task.cron, () => queue.add(runDockerContainer(task))).start();
-      logger.info(`Scheduled task ${task.name} with ${task.cron} cron string`);
-    }
-  });
-}
-
-main();
+startTaskRunner(config, DEFAULT_MAX_JOBS, RUN_NOW);
+startRestfulServer(config, PORT);
