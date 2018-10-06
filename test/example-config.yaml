@@ -1,6 +1,7 @@
 general:
-  host: "http://10.0.100.157"
-  port: 2376
+  # host: "http://10.0.100.157"
+  # port: 2376
+  socketPath: "/var/run/docker.sock"
 instance:
   maxJobs: 5
 tasks:
@@ -17,7 +18,6 @@ tasks:
     image: "calimaborges/errored"
     cron: "* * * * *"
     timeout: 30
-
   # - name: "hello-world-trial-1"
   #   image: "hello-world"
   #   cron: "* * * * *"

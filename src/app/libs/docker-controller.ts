@@ -5,13 +5,14 @@ import { logger } from "./logger";
 import { Task } from "../models/task";
 
 export class DockerController {
+  private kTickTime = 500;
   private docker: Docker;
 
   constructor(config: GeneralConfig) {
     this.docker = new Docker(config);
   }
 
-  public async run(task: Task): Promise<Service> {
+  public async run(task: Task, removeAfterDone = false): Promise<Service> {
     await this.removeServiceForTask(task);
     const service = await this.createServiceForTask(task);
     await this.waitServiceToComplete(service);
@@ -23,6 +24,10 @@ export class DockerController {
     // });
 
     // stream.pipe(process.stdout);
+
+    if (removeAfterDone) {
+      await this.removeServiceForTask(task);
+    }
 
     return service;
   }
@@ -61,13 +66,15 @@ export class DockerController {
     while (true) {
       const tasks = await this.docker.listTasks();
       const taskForService = tasks.find(task => task.ServiceID === service.id);
+
+      await sleep(this.kTickTime);
+
       if (
-        taskForService.Status.State === "complete" ||
-        taskForService.Status.State === "failed"
+        taskForService &&
+        (taskForService.Status.State === "complete" ||
+          taskForService.Status.State === "failed")
       ) {
         break;
-      } else {
-        await sleep(1000);
       }
     }
   }

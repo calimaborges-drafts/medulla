@@ -19,7 +19,18 @@ export class TasksRunner {
     this.tasks = tasks;
   }
 
-  public start() {
+  public async start() {
+    try {
+      await this.testSwarmConnection();
+    } catch (error) {
+      logger.error(
+        `Could not connect to swarm. Please verify your general configuration. 
+        ** TASK RUNNER WILL NOT START **`
+      );
+      logger.error(error);
+      return;
+    }
+
     this.tasks.forEach(task => {
       if (task.cron) {
         this.scheduleTask(task);
@@ -29,10 +40,22 @@ export class TasksRunner {
     });
   }
 
+  private async testSwarmConnection() {
+    const testTask = {
+      name: "test-task",
+      image: "hello-world"
+    };
+    await this.dockerController.run(testTask, true);
+  }
+
   private scheduleTask(task: Task) {
-    const cronJob = new CronJob(task.cron, () => this.enqueueTask(task));
-    cronJob.start();
-    logger.info(`Scheduled task ${task.name} with ${task.cron} cron string`);
+    if (task.cron) {
+      const cronJob = new CronJob(task.cron, () => this.enqueueTask(task));
+      cronJob.start();
+      logger.info(`Scheduled task ${task.name} with ${task.cron} cron string`);
+    } else {
+      this.enqueueTask(task);
+    }
   }
 
   private enqueueTask(task: Task) {

@@ -14,8 +14,9 @@ const kPort = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
 const kMaxJobs = config.instance.maxJobs || 5;
 
 const dockerController = new DockerController(config.general);
+
 const restfulApiServer = new RestfulApiServer(config, kPort);
 const taskRunner = new TasksRunner(dockerController, kMaxJobs, config.tasks);
 
-restfulApiServer.start();
 taskRunner.start();
+restfulApiServer.start();
