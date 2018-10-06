@@ -1,10 +1,12 @@
 import fs from "fs";
 import yaml from "js-yaml";
 
+import { Task } from "../models/task";
+
 export interface Config {
   general: GeneralConfig;
   instance: InstanceConfig;
-  tasks: TaskConfig[];
+  tasks: Task[];
 }
 
 export interface InstanceConfig {
@@ -19,13 +21,6 @@ export interface GeneralConfig {
   host?: string;
   port?: number;
   version?: string;
-}
-
-export interface TaskConfig {
-  name: string;
-  image: string;
-  cmd: string;
-  cron: string;
 }
 
 export function parseConfig(path: string): Config {
