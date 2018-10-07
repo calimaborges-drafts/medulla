@@ -1,6 +1,7 @@
 export enum TaskStatus {
   complete = "complete",
   preparing = "preparing",
+  starting = "starting",
   running = "running",
   notCreated = "not_created",
   failed = "failed"
