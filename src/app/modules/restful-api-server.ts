@@ -2,16 +2,16 @@ const { version } = require("../../../package.json");
 
 import express from "express";
 import { logger } from "../libs/logger";
-import { Config } from "../libs/config-file-reader";
+import { TasksService } from "../libs/tasks-service";
 
 export class RestfulApiServer {
-  private config: Config;
   private port: number;
   private app: express.Application;
+  private tasksService: TasksService;
 
-  constructor(config: Config, port: number) {
-    this.config = config;
+  constructor(port: number, tasksService: TasksService) {
     this.port = port;
+    this.tasksService = tasksService;
     this.app = express();
   }
 
@@ -25,8 +25,14 @@ export class RestfulApiServer {
       res.send({ env: process.env.NODE_ENV, version })
     );
 
-    this.app.get("/tasks", (_, res) =>
-      res.send(JSON.stringify(this.config.tasks))
-    );
+    this.app.get("/tasks", async (_, res) => {
+      try {
+        const tasks = await this.tasksService.fetchTasks();
+        res.send(JSON.stringify(tasks));
+      } catch (error) {
+        logger.error(error);
+        res.send({ error: error.message.trim() });
+      }
+    });
   }
 }

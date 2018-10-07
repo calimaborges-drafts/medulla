@@ -2,7 +2,7 @@ import Docker, { Service } from "dockerode";
 import { GeneralConfig } from "./config-file-reader";
 import { sleep } from "../../shared/async-utils";
 import { logger } from "./logger";
-import { Task } from "../models/task";
+import { Task, TaskStatus } from "../models/task";
 
 export class DockerController {
   private kTickTime = 500;
@@ -30,6 +30,34 @@ export class DockerController {
     }
 
     return service;
+  }
+
+  public async fetchTask(task: Task) {
+    logger.debug(`Fetching task ${task.name}`);
+    const updatedTask = { ...task };
+
+    const services = await this.docker.listServices();
+    const filteredServices = services.filter(
+      service => service.Spec.Name === task.name
+    );
+
+    if (filteredServices.length === 0) {
+      return {
+        ...updatedTask,
+        status: TaskStatus.notCreated
+      };
+    }
+
+    if (filteredServices.length > 1) {
+      throw new Error(`More than one service found for task ${task.name}`);
+    }
+
+    const service = filteredServices[0];
+    updatedTask.status = await this.fetchStatusForService({
+      ...service,
+      id: service.ID
+    });
+    return updatedTask;
   }
 
   private async removeServiceForTask(task: Task): Promise<void> {
@@ -61,21 +89,28 @@ export class DockerController {
     return service;
   }
 
-  private async waitServiceToComplete(service: Service) {
-    logger.debug(`Waiting for service ${service.id} to complete...`);
+  private async fetchStatusForService(service: Service): Promise<TaskStatus> {
     while (true) {
       const tasks = await this.docker.listTasks();
       const taskForService = tasks.find(task => task.ServiceID === service.id);
+      if (!taskForService) {
+        return TaskStatus.notCreated;
+      }
+      return taskForService.Status.State;
+    }
+  }
 
-      await sleep(this.kTickTime);
-
+  private async waitServiceToComplete(service: Service) {
+    logger.debug(`Waiting for service ${service.id} to complete...`);
+    while (true) {
+      const taskStatus = await this.fetchStatusForService(service);
       if (
-        taskForService &&
-        (taskForService.Status.State === "complete" ||
-          taskForService.Status.State === "failed")
+        taskStatus === TaskStatus.complete ||
+        taskStatus === TaskStatus.failed
       ) {
         break;
       }
+      await sleep(this.kTickTime);
     }
   }
 }
