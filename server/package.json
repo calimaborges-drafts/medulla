@@ -1,5 +1,6 @@
 {
-  "name": "medulla",
+  "name": "medulla-server",
+  "private": true,
   "version": "1.0.0",
   "author": "Carlos Augusto Borges <calimaborges@gmail.com>",
   "license": "MIT",
