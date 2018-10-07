@@ -42,7 +42,10 @@ export class DockerController {
     );
 
     if (filteredServices.length === 0) {
-      throw new Error(`Service for task ${task.name} not found`);
+      return {
+        ...updatedTask,
+        status: TaskStatus.notCreated
+      };
     }
 
     if (filteredServices.length > 1) {
@@ -50,7 +53,6 @@ export class DockerController {
     }
 
     const service = filteredServices[0];
-
     updatedTask.status = await this.fetchStatusForService({
       ...service,
       id: service.ID

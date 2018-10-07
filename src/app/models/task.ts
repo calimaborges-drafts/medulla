@@ -1,6 +1,6 @@
 export enum TaskStatus {
   complete = "complete",
-  pending = "pending",
+  preparing = "preparing",
   running = "running",
   notCreated = "not_created",
   failed = "failed"

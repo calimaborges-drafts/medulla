@@ -27,7 +27,8 @@ export class RestfulApiServer {
 
     this.app.get("/tasks", async (_, res) => {
       try {
-        res.send(JSON.stringify(await this.tasksService.fetchTasks()));
+        const tasks = await this.tasksService.fetchTasks();
+        res.send(JSON.stringify(tasks));
       } catch (error) {
         logger.error(error);
         res.send({ error: error.message.trim() });
