@@ -54,9 +54,11 @@ tasks:
     - [x] Listar tarefas (baseado no `config.yaml`)
     - [x] Criar Factory / Classes ?
     - [x] Tratar erro:
-          2018-10-06T16:27:00.045Z error: Task hello-world-trial-1 failed
-          2018-10-06T16:27:00.046Z error: Cannot read property 'Status' of undefined
-    - [ ] Obter estado atual da tarefa
+      ```
+      2018-10-06T16:27:00.045Z error: Task hello-world-trial-1 failed
+      2018-10-06T16:27:00.046Z error: Cannot read property 'Status' of undefined
+      ```
+    - [x] Obter estado atual da tarefa
     - [ ] Testar tarefas que nunca executaram
   - [ ] Dashboard para acompanhar tarefas em execução
     - [ ] Listar todas as tarefas
