@@ -21,6 +21,7 @@ export class TasksRunner {
 
   public async start() {
     try {
+      logger.info("Testing Swarm connection...");
       await this.testSwarmConnection();
     } catch (error) {
       logger.error(
