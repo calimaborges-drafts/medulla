@@ -1,38 +1,25 @@
-import React, { Fragment } from "react";
+import React from "react";
 import {
   withStyles,
+  createMuiTheme,
+  MuiThemeProvider,
   CssBaseline,
   Grid,
   Typography,
   AppBar,
   Toolbar,
-  Paper,
-  Theme,
-  Table,
-  TableHead,
-  TableCell,
-  TableRow,
-  TableBody,
-  Tooltip
+  Tooltip,
+  ExpansionPanel,
+  ExpansionPanelSummary
 } from "@material-ui/core";
 import DoneIcon from "@material-ui/icons/Done";
 import ClearIcon from "@material-ui/icons/Clear";
 import RefreshIcon from "@material-ui/icons/Refresh";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { Task, MedullaClient, TaskStatus } from "./libs/medulla-client";
 import { pacemaker } from "./libs/async-utils";
-
-const styles = (theme: Theme) => ({
-  root: {
-    flexGrow: 1
-  },
-  title: {
-    grow: 1
-  },
-  mainContent: {
-    marginTop: theme.spacing.unit * 7,
-    padding: theme.spacing.unit * 2
-  }
-});
+import { styles } from "./App.style";
+import { green, red, yellow } from "@material-ui/core/colors";
 
 type TaskStatusIconProps = {
   taskState: string;
@@ -41,13 +28,21 @@ type TaskStatusIconProps = {
 const TaskStatusIcon: React.SFC<TaskStatusIconProps> = ({ taskState }) => {
   switch (taskState) {
     case TaskStatus.complete:
-      return <DoneIcon titleAccess={taskState} />;
+      return <DoneIcon titleAccess={taskState} style={{ color: green[500] }} />;
     case TaskStatus.failed:
-      return <ClearIcon titleAccess={taskState} />;
+      return <ClearIcon titleAccess={taskState} style={{ color: red[500] }} />;
     default:
-      return <RefreshIcon titleAccess={taskState} />;
+      return (
+        <RefreshIcon titleAccess={taskState} style={{ color: yellow[800] }} />
+      );
   }
 };
+
+const theme = createMuiTheme({
+  typography: {
+    useNextVariants: true
+  }
+});
 
 type Props = {
   classes: any;
@@ -79,7 +74,7 @@ class App extends React.PureComponent<Props, State> {
     const { classes } = this.props;
     const { tasks } = this.state;
     return (
-      <Fragment>
+      <MuiThemeProvider theme={theme}>
         <CssBaseline />
         <div className={classes.root}>
           <AppBar position="fixed">
@@ -95,34 +90,25 @@ class App extends React.PureComponent<Props, State> {
           </AppBar>
           <Grid container spacing={24} className={classes.mainContent}>
             <Grid item xs={12}>
-              <Paper>
-                <Table className={classes.table}>
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>Tarefas</TableCell>
-                      <TableCell>Estado</TableCell>
-                      <TableCell>Ações</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {tasks.map(task => (
-                      <TableRow key={task.name}>
-                        <TableCell>{task.name}</TableCell>
-                        <TableCell>
-                          <Tooltip title={task.status}>
-                            <TaskStatusIcon taskState={task.status} />
-                          </Tooltip>
-                        </TableCell>
-                        <TableCell>RUN</TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </Paper>
+              {tasks.map(task => (
+                <ExpansionPanel key={task.name}>
+                  <ExpansionPanelSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    className={classes.taskSummary}
+                  >
+                    <Typography className={classes.taskTitle}>
+                      {task.name}
+                    </Typography>
+                    <Tooltip title={task.status}>
+                      <TaskStatusIcon taskState={task.status} />
+                    </Tooltip>
+                  </ExpansionPanelSummary>
+                </ExpansionPanel>
+              ))}
             </Grid>
           </Grid>
         </div>
-      </Fragment>
+      </MuiThemeProvider>
     );
   }
 }
