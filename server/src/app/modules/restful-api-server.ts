@@ -40,5 +40,17 @@ export class RestfulApiServer {
         res.send({ error: error.message.trim() });
       }
     });
+
+    this.app.get("/tasks/:name/logs", async (req, res) => {
+      const task = await this.tasksService.fetchTask(req.params.name);
+      const logStream = await this.tasksService.fetchLogs(task);
+
+      logStream.on("close", () => console.log("CLOSE"));
+      logStream.on("error", () => console.log("ERROR"));
+      logStream.on("end", () => console.log("END"));
+      logStream.on("finish", () => console.log("FINISH"));
+
+      // logStream.pipe(process.stdout);
+    });
   }
 }

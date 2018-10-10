@@ -10,7 +10,8 @@ import {
   Toolbar,
   Tooltip,
   ExpansionPanel,
-  ExpansionPanelSummary
+  ExpansionPanelSummary,
+  ExpansionPanelDetails
 } from "@material-ui/core";
 import DoneIcon from "@material-ui/icons/Done";
 import ClearIcon from "@material-ui/icons/Clear";
@@ -20,6 +21,7 @@ import { Task, MedullaClient, TaskStatus } from "./libs/medulla-client";
 import { pacemaker } from "./libs/async-utils";
 import { styles } from "./App.style";
 import { green, red, yellow } from "@material-ui/core/colors";
+import { TaskLogViewer } from "./components/TaskLogViewer";
 
 type TaskStatusIconProps = {
   taskState: string;
@@ -103,6 +105,9 @@ class App extends React.PureComponent<Props, State> {
                       <TaskStatusIcon taskState={task.status} />
                     </Tooltip>
                   </ExpansionPanelSummary>
+                  <ExpansionPanelDetails>
+                    <TaskLogViewer task={task} />
+                  </ExpansionPanelDetails>
                 </ExpansionPanel>
               ))}
             </Grid>

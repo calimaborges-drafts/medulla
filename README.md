@@ -65,6 +65,8 @@ tasks:
     - [ ] Exibir log de execução de cada tarefa
     - [ ] Permitir executar tarefa forçadamente
 - **NEXT**
+  - [ ] Compartilhar componentes entre server e client
+  - [ ] Tentar criar script para rodar server e client ao mesmo tempo
   - [ ] Testes automatizados
   - [ ] Deve permitir visualizar três últimas rodadas executadas por tarefa
   - [ ] Permitir definir tarefa como única rodada (não permite executar a mesma tarefa ao mesmo tempo)

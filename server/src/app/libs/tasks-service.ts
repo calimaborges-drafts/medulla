@@ -11,9 +11,21 @@ export class TasksService {
     this.dockerController = dockerController;
   }
 
+  public async fetchTask(name: string): Promise<Task> {
+    const filteredTasks = this.config.tasks.filter(task => task.name === name);
+    if (filteredTasks.length === 0) {
+      throw new Error(`Could not find task with name ${name}`);
+    }
+    return this.dockerController.fetchTask(filteredTasks[0]);
+  }
+
   public async fetchTasks(): Promise<Task[]> {
     return Promise.all(
       this.config.tasks.map(task => this.dockerController.fetchTask(task))
     );
+  }
+
+  public async fetchLogs(task: Task): Promise<any> {
+    return this.dockerController.fetchLog(task);
   }
 }
