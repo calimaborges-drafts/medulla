@@ -1,6 +1,7 @@
 const { version } = require("../../../package.json");
 
 import express from "express";
+import cors from "cors";
 import { logger } from "../libs/logger";
 import { TasksService } from "../libs/tasks-service";
 
@@ -16,8 +17,13 @@ export class RestfulApiServer {
   }
 
   public start() {
+    this.config();
     this.routes();
     this.app.listen(this.port, () => logger.info(`Listening app ${this.port}`));
+  }
+
+  private config() {
+    this.app.use(cors());
   }
 
   private routes() {

@@ -5,8 +5,17 @@ node_js:
 cache:
   yarn: true
   directories:
-    - node_modules
+    - server/node_modules
+    - client/node_modules
 
-before_script: yarn
-test: yarn test
-script: yarn build
+jobs:
+  include:
+    - stage: dependencies
+      script: cd server && yarn
+      script: cd client && yarn
+    - stage: test
+      script: cd server && yarn test
+      script: cd client && yarn test
+    - stage: build
+      script: cd server && yarn build
+      script: cd client && yarn build
