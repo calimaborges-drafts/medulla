@@ -1,6 +1,7 @@
 import React, { Fragment } from "react";
 import {
   withStyles,
+  CssBaseline,
   Grid,
   Typography,
   AppBar,
@@ -12,9 +13,13 @@ import {
   TableCell,
   TableRow,
   TableBody,
-  CssBaseline
+  Tooltip
 } from "@material-ui/core";
+import DoneIcon from "@material-ui/icons/Done";
+import ClearIcon from "@material-ui/icons/Clear";
+import RefreshIcon from "@material-ui/icons/Refresh";
 import { Task, MedullaClient } from "./libs/medulla-client";
+import { pacemaker } from "./libs/async-utils";
 
 const styles = (theme: Theme) => ({
   root: {
@@ -29,6 +34,21 @@ const styles = (theme: Theme) => ({
   }
 });
 
+type TaskStatusIconProps = {
+  taskState: string;
+};
+
+const TaskStatusIcon: React.SFC<TaskStatusIconProps> = ({ taskState }) => {
+  switch (taskState) {
+    case "complete":
+      return <DoneIcon titleAccess={taskState} />;
+    case "failed":
+      return <ClearIcon titleAccess={taskState} />;
+    default:
+      return <RefreshIcon titleAccess={taskState} />;
+  }
+};
+
 type Props = {
   classes: any;
 };
@@ -38,12 +58,20 @@ class State {
 }
 
 class App extends React.PureComponent<Props, State> {
+  private readonly medullaClient = new MedullaClient();
+  private stopPacemaker?: () => void;
+
   readonly state = new State();
-  readonly medullaClient = new MedullaClient();
 
   async componentDidMount() {
-    const tasks = await this.medullaClient.fetchTasks();
-    this.setState({ tasks });
+    this.stopPacemaker = pacemaker(1000, async () => {
+      const tasks = await this.medullaClient.fetchTasks();
+      this.setState({ tasks });
+    });
+  }
+
+  componentWillUnmount() {
+    if (this.stopPacemaker) this.stopPacemaker();
   }
 
   render(): React.ReactNode {
@@ -71,6 +99,7 @@ class App extends React.PureComponent<Props, State> {
                   <TableHead>
                     <TableRow>
                       <TableCell>Tarefas</TableCell>
+                      <TableCell>Estado</TableCell>
                       <TableCell>Ações</TableCell>
                     </TableRow>
                   </TableHead>
@@ -78,7 +107,12 @@ class App extends React.PureComponent<Props, State> {
                     {tasks.map(task => (
                       <TableRow key={task.name}>
                         <TableCell>{task.name}</TableCell>
-                        <TableCell>{task.status}</TableCell>
+                        <TableCell>
+                          <Tooltip title={task.status}>
+                            <TaskStatusIcon taskState={task.status} />
+                          </Tooltip>
+                        </TableCell>
+                        <TableCell>RUN</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>

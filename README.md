@@ -61,8 +61,9 @@ tasks:
     - [x] Obter estado atual da tarefa
     - [x] Testar tarefas que nunca executaram
   - [ ] Dashboard para acompanhar tarefas em execução
-    - [ ] Listar todas as tarefas
+    - [x] Listar todas as tarefas
     - [ ] Exibir log de execução de cada tarefa
+    - [ ] Permitir executar tarefa forçadamente
 - **NEXT**
   - [ ] Testes automatizados
   - [ ] Deve permitir visualizar três últimas rodadas executadas por tarefa
