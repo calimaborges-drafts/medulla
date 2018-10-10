@@ -18,7 +18,7 @@ import {
 import DoneIcon from "@material-ui/icons/Done";
 import ClearIcon from "@material-ui/icons/Clear";
 import RefreshIcon from "@material-ui/icons/Refresh";
-import { Task, MedullaClient } from "./libs/medulla-client";
+import { Task, MedullaClient, TaskStatus } from "./libs/medulla-client";
 import { pacemaker } from "./libs/async-utils";
 
 const styles = (theme: Theme) => ({
@@ -40,9 +40,9 @@ type TaskStatusIconProps = {
 
 const TaskStatusIcon: React.SFC<TaskStatusIconProps> = ({ taskState }) => {
   switch (taskState) {
-    case "complete":
+    case TaskStatus.complete:
       return <DoneIcon titleAccess={taskState} />;
-    case "failed":
+    case TaskStatus.failed:
       return <ClearIcon titleAccess={taskState} />;
     default:
       return <RefreshIcon titleAccess={taskState} />;
@@ -58,13 +58,14 @@ class State {
 }
 
 class App extends React.PureComponent<Props, State> {
+  private readonly refreshInterval = 3000;
   private readonly medullaClient = new MedullaClient();
   private stopPacemaker?: () => void;
 
   readonly state = new State();
 
   async componentDidMount() {
-    this.stopPacemaker = pacemaker(1000, async () => {
+    this.stopPacemaker = pacemaker(this.refreshInterval, async () => {
       const tasks = await this.medullaClient.fetchTasks();
       this.setState({ tasks });
     });
