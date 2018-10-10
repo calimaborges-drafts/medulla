@@ -72,3 +72,4 @@ tasks:
   - [ ] Deve permitir configurar notificador (slack, email etc)
   - [ ] Integração com GitLab para pesquisar arquivo `.medulla.yml` para buscar tarefas a serem agendadas
   - [ ] Implementar Timeout
+  - [ ] Implementar push ao invés de pulling
