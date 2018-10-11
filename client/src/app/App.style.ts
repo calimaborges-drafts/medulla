@@ -10,12 +10,5 @@ export const styles = (theme: Theme) => ({
   mainContent: {
     marginTop: theme.spacing.unit * 7,
     padding: theme.spacing.unit * 2
-  },
-  taskTitle: {
-    flex: 1,
-    fontWeight: 500
-  },
-  taskSummary: {
-    paddingRight: "5rem"
   }
 });

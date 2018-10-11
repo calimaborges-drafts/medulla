@@ -62,11 +62,13 @@ tasks:
     - [x] Testar tarefas que nunca executaram
   - [ ] Dashboard para acompanhar tarefas em execução
     - [x] Listar todas as tarefas
-    - [ ] Exibir log de execução de cada tarefa
+    - [x] Exibir log de execução de cada tarefa
+    - [ ] Deve requisitar log somente após clique na tarefa
     - [ ] Permitir executar tarefa forçadamente
 - **NEXT**
   - [ ] Compartilhar componentes entre server e client
   - [ ] Tentar criar script para rodar server e client ao mesmo tempo
+  - [ ] Melhorar mecanismo de log com base no estado da tarefa
   - [ ] Testes automatizados
   - [ ] Deve permitir visualizar três últimas rodadas executadas por tarefa
   - [ ] Permitir definir tarefa como única rodada (não permite executar a mesma tarefa ao mesmo tempo)

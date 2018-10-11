@@ -11,7 +11,6 @@ class State {
 
 export class TaskLogViewer extends React.PureComponent<Props, State> {
   readonly medullaClient = new MedullaClient();
-
   readonly state = new State();
 
   async componentDidMount() {
