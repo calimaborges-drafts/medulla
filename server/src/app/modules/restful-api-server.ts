@@ -45,12 +45,14 @@ export class RestfulApiServer {
       const task = await this.tasksService.fetchTask(req.params.name);
       const logStream = await this.tasksService.fetchLogs(task);
 
-      logStream.on("close", () => console.log("CLOSE"));
-      logStream.on("error", () => console.log("ERROR"));
-      logStream.on("end", () => console.log("END"));
-      logStream.on("finish", () => console.log("FINISH"));
+      logStream.pipe(res);
 
-      // logStream.pipe(process.stdout);
+      // Infelizmente o Docker não fecha o pipe de log. Então coloquei um
+      // tempo arbitrário e o servidor ficará responsável por fazer a consulta
+      // de tempos em tempos.
+      setTimeout(() => {
+        res.end();
+      }, 3000);
     });
   }
 }

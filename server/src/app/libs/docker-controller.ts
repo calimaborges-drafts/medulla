@@ -1,3 +1,4 @@
+import through2 from "through2";
 import Docker, { Service } from "dockerode";
 import { GeneralConfig } from "./config-file-reader";
 import { sleep } from "../../shared/async-utils";
@@ -61,8 +62,9 @@ export class DockerController {
       follow: true
     });
 
-    logger.debug(`Fetching service from ${task.name} for removal...`);
-    return stream;
+    const through = through2();
+    service.modem.demuxStream(stream, through, through);
+    return through;
   }
 
   private async fetchServiceForTask(task: Task): Promise<any> {
