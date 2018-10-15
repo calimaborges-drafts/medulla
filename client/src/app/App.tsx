@@ -13,8 +13,7 @@ import {
 import { Task, MedullaClient } from "./libs/medulla-client";
 import { pacemaker } from "./libs/async-utils";
 import { styles } from "./App.style";
-
-
+import TaskPanel from "./components/TaskPanel";
 
 const theme = createMuiTheme({
   typography: {
@@ -69,7 +68,7 @@ class App extends React.PureComponent<Props, State> {
           <Grid container spacing={24} className={classes.mainContent}>
             <Grid item xs={12}>
               {tasks.map(task => (
-                
+                <TaskPanel task={task} key={task.name} />
               ))}
             </Grid>
           </Grid>

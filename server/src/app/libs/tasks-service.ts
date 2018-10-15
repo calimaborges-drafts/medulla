@@ -1,3 +1,4 @@
+import stream from "stream";
 import { Task } from "../models/task";
 import { Config } from "./config-file-reader";
 import { DockerController } from "./docker-controller";
@@ -25,7 +26,11 @@ export class TasksService {
     );
   }
 
-  public async fetchLogs(task: Task): Promise<any> {
+  public async fetchLogs(task: Task): Promise<stream.Transform> {
     return this.dockerController.fetchLog(task);
+  }
+
+  public async start(task: Task): Promise<any> {
+    return this.dockerController.run(task);
   }
 }

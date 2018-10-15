@@ -54,5 +54,12 @@ export class RestfulApiServer {
         res.end();
       }, 3000);
     });
+
+    this.app.post("/tasks/:name/start", async (req, res) => {
+      const task = await this.tasksService.fetchTask(req.params.name);
+      const startResult = await this.tasksService.start(task);
+
+      res.send(JSON.stringify(startResult));
+    });
   }
 }

@@ -1,3 +1,4 @@
+import stream from "stream";
 import through2 from "through2";
 import Docker, { Service } from "dockerode";
 import { GeneralConfig } from "./config-file-reader";
@@ -5,6 +6,7 @@ import { sleep } from "../../shared/async-utils";
 import { logger } from "./logger";
 import { Task, TaskStatus } from "../models/task";
 
+//FIXME: Estruturar melhor essa classe
 export class DockerController {
   private kTickTime = 500;
   private docker: Docker;
@@ -53,7 +55,7 @@ export class DockerController {
     return updatedTask;
   }
 
-  public async fetchLog(task: Task): Promise<any> {
+  public async fetchLog(task: Task): Promise<stream.Transform> {
     logger.debug(`Fetching log from ${task.name}...`);
     const service = await this.fetchServiceForTask(task);
     const stream = await service.logs({

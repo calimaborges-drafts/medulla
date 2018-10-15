@@ -25,4 +25,11 @@ export class MedullaClient {
     const response = await fetch(`${this.baseUrl}/tasks/${task.name}/logs`);
     return response.text();
   }
+
+  public async postTaskStart(task: Task): Promise<any> {
+    const response = await fetch(`${this.baseUrl}/tasks/${task.name}/start`, {
+      method: "POST"
+    });
+    return response.json();
+  }
 }

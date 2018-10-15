@@ -1,5 +1,6 @@
 import React from "react";
 import { Task, MedullaClient } from "../libs/medulla-client";
+import { LinearProgress } from "@material-ui/core";
 
 type Props = {
   task: Task;
@@ -20,6 +21,10 @@ export class TaskLogViewer extends React.PureComponent<Props, State> {
   }
 
   render(): React.ReactNode {
-    return <pre>{this.state.log}</pre>;
+    if (this.state.log !== undefined) {
+      return <pre>{this.state.log}</pre>;
+    } else {
+      return <LinearProgress style={{ width: "100%" }} />;
+    }
   }
 }

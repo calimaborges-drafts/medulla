@@ -50,7 +50,7 @@ tasks:
   - [x] Deve funcionar com o Docker Swarm
   - [x] Tratar execuções com erro
   - [x] Por enquanto armazenar somente 1 resultado por tarefa
-  - [ ] RESTful API para acompanhar tarefas em execução
+  - [x] RESTful API para acompanhar tarefas em execução
     - [x] Listar tarefas (baseado no `config.yaml`)
     - [x] Criar Factory / Classes ?
     - [x] Tratar erro:
@@ -63,7 +63,7 @@ tasks:
   - [ ] Dashboard para acompanhar tarefas em execução
     - [x] Listar todas as tarefas
     - [x] Exibir log de execução de cada tarefa
-    - [ ] Deve requisitar log somente após clique na tarefa
+    - [x] Deve requisitar log somente após clique na tarefa
     - [ ] Permitir executar tarefa forçadamente
 - **NEXT**
   - [ ] Compartilhar componentes entre server e client
