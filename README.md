@@ -60,11 +60,11 @@ tasks:
       ```
     - [x] Obter estado atual da tarefa
     - [x] Testar tarefas que nunca executaram
-  - [ ] Dashboard para acompanhar tarefas em execução
+  - [x] Dashboard para acompanhar tarefas em execução
     - [x] Listar todas as tarefas
     - [x] Exibir log de execução de cada tarefa
     - [x] Deve requisitar log somente após clique na tarefa
-    - [ ] Permitir executar tarefa forçadamente
+    - [x] Permitir executar tarefa forçadamente
 - **NEXT**
   - [ ] Compartilhar componentes entre server e client
   - [ ] Tentar criar script para rodar server e client ao mesmo tempo
