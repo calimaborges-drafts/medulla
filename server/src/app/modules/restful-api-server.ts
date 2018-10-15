@@ -40,5 +40,26 @@ export class RestfulApiServer {
         res.send({ error: error.message.trim() });
       }
     });
+
+    this.app.get("/tasks/:name/logs", async (req, res) => {
+      const task = await this.tasksService.fetchTask(req.params.name);
+      const logStream = await this.tasksService.fetchLogs(task);
+
+      logStream.pipe(res);
+
+      // Infelizmente o Docker não fecha o pipe de log. Então coloquei um
+      // tempo arbitrário e o servidor ficará responsável por fazer a consulta
+      // de tempos em tempos.
+      setTimeout(() => {
+        res.end();
+      }, 3000);
+    });
+
+    this.app.post("/tasks/:name/start", async (req, res) => {
+      const task = await this.tasksService.fetchTask(req.params.name);
+      const startResult = await this.tasksService.start(task);
+
+      res.send(JSON.stringify(startResult));
+    });
   }
 }

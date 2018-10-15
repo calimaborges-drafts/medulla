@@ -1,9 +1,12 @@
+import stream from "stream";
+import through2 from "through2";
 import Docker, { Service } from "dockerode";
 import { GeneralConfig } from "./config-file-reader";
 import { sleep } from "../../shared/async-utils";
 import { logger } from "./logger";
 import { Task, TaskStatus } from "../models/task";
 
+//FIXME: Estruturar melhor essa classe
 export class DockerController {
   private kTickTime = 500;
   private docker: Docker;
@@ -16,14 +19,6 @@ export class DockerController {
     await this.removeServiceForTask(task);
     const service = await this.createServiceForTask(task);
     await this.waitServiceToComplete(service);
-
-    // const stream = await service.logs({
-    //   stdout: true,
-    //   stderr: true,
-    //   follow: true
-    // });
-
-    // stream.pipe(process.stdout);
 
     if (removeAfterDone) {
       await this.removeServiceForTask(task);
@@ -60,9 +55,27 @@ export class DockerController {
     return updatedTask;
   }
 
+  public async fetchLog(task: Task): Promise<stream.Transform> {
+    logger.debug(`Fetching log from ${task.name}...`);
+    const service = await this.fetchServiceForTask(task);
+    const stream = await service.logs({
+      stdout: true,
+      stderr: true,
+      follow: true
+    });
+
+    const through = through2();
+    service.modem.demuxStream(stream, through, through);
+    return through;
+  }
+
+  private async fetchServiceForTask(task: Task): Promise<any> {
+    return this.docker.getService(task.name);
+  }
+
   private async removeServiceForTask(task: Task): Promise<void> {
     logger.debug(`Fetching service from ${task.name} for removal...`);
-    const service = this.docker.getService(task.name);
+    const service = await this.fetchServiceForTask(task);
     try {
       await service.remove();
       logger.debug(`Service from ${task.name} removed.`);
